@@ -1,0 +1,5 @@
+{
+  "name": "CIES Gestión Integral",
+  "description": "Una aplicación web completa para la gestión de comisiones de seguros ARL, presupuestos, órdenes de servicio, clientes y aliados estratégicos para CIES Seguros y Soluciones.",
+  "requestFramePermissions": []
+}
