@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from 'react-hot-toast';
@@ -71,12 +71,12 @@ function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <HashRouter>
+        <BrowserRouter>
           <AuthProvider>
             <AppRoutes />
             <Toaster position="top-right" />
           </AuthProvider>
-        </HashRouter>
+        </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </ErrorBoundary>
