@@ -52,6 +52,7 @@ export const usuariosApi = {
           nombre: perfil.nombre,
           rol: perfil.rol,
           modulos_autorizados: perfil.modulos_autorizados,
+          cliente_id: perfil.cliente_id,
           activo: perfil.activo
         }])
         .select()
@@ -66,6 +67,7 @@ export const usuariosApi = {
               nombre: perfil.nombre,
               rol: perfil.rol,
               modulos_autorizados: perfil.modulos_autorizados,
+              cliente_id: perfil.cliente_id,
               activo: perfil.activo
             })
             .eq('id', authData.user.id)

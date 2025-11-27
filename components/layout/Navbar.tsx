@@ -19,6 +19,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onMenuClick }) => {
         return 'Analista';
       case 'CONSULTA':
         return 'Consulta';
+      case 'CLIENTE':
+        return 'Cliente';
       default:
         return 'Usuario';
     }

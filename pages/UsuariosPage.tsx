@@ -41,19 +41,18 @@ const UsuariosPage: React.FC = () => {
   };
 
   const handleSubmit = (formData: UsuarioFormData) => {
-    // Note: In a real implementation, password handling would be done via Auth API.
     const { password, ...profileData } = formData;
-    
+
     if (selectedUsuario) {
       updateUsuario({ id: selectedUsuario.id, updates: profileData }, {
         onSuccess: handleCloseModal,
       });
     } else {
-      // Mocking ID generation for profile - in reality this comes from Auth.signUp
-      createUsuario({ 
-          ...profileData, 
-          id: uuidv4(), 
-          modulos_autorizados: formData.rol === 'ADMIN' ? [] : formData.modulos_autorizados // Admin gets all by logic, or store specifically
+      // Create new user with password (handled by usuariosApi.createPerfil)
+      createUsuario({
+          ...profileData,
+          password,
+          modulos_autorizados: formData.rol === 'CLIENTE' ? ['/portal-cliente'] : formData.modulos_autorizados
       }, {
         onSuccess: handleCloseModal,
       });

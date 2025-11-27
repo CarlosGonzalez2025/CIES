@@ -7,6 +7,7 @@ import type { PerfilUsuario } from '../../types';
 import { Input } from '../ui/Input';
 import { Select } from '../ui/Select';
 import { Button } from '../ui/Button';
+import { useClientes } from '../../hooks/useClientes';
 
 interface UsuarioFormProps {
   onSubmit: SubmitHandler<UsuarioFormData>;
@@ -19,6 +20,7 @@ const ROLES = [
     { value: "ADMIN", label: "Administrador (Acceso Total)" },
     { value: "ANALISTA", label: "Analista (Gestión)" },
     { value: "CONSULTA", label: "Solo Consulta" },
+    { value: "CLIENTE", label: "Cliente (Solo Portal)" },
 ];
 
 const MODULOS = [
@@ -32,6 +34,7 @@ const MODULOS = [
 ];
 
 export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onSubmit, onClose, defaultValues, isSubmitting }) => {
+  const { clienteOptions, isLoading: loadingClientes } = useClientes();
   const { register, handleSubmit, formState: { errors }, reset, watch, setValue } = useForm<UsuarioFormData>({
     resolver: zodResolver(usuarioSchema),
     defaultValues: {
@@ -49,15 +52,18 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onSubmit, onClose, def
         nombre: defaultValues.nombre,
         rol: defaultValues.rol,
         modulos_autorizados: defaultValues.modulos_autorizados || [],
+        cliente_id: defaultValues.cliente_id,
         activo: defaultValues.activo
       });
     }
   }, [defaultValues, reset]);
 
-  // Auto-select all modules if Admin
+  // Auto-select all modules if Admin, clear modules if Cliente
   useEffect(() => {
       if (rol === 'ADMIN') {
           setValue('modulos_autorizados', MODULOS.map(m => m.id));
+      } else if (rol === 'CLIENTE') {
+          setValue('modulos_autorizados', ['/portal-cliente']);
       }
   }, [rol, setValue]);
   
@@ -86,22 +92,39 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onSubmit, onClose, def
                     error={errors.password?.message} 
                  />
             )}
-            <Select 
-              label="Rol de Usuario" 
-              options={ROLES} 
-              {...register('rol')} 
-              error={errors.rol?.message} 
-              required 
+            <Select
+              label="Rol de Usuario"
+              options={ROLES}
+              {...register('rol')}
+              error={errors.rol?.message}
+              required
             />
         </div>
 
-        <div className="border-t pt-4">
+        {rol === 'CLIENTE' && (
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <Select
+              label="Cliente Asociado"
+              options={clienteOptions}
+              {...register('cliente_id')}
+              error={errors.cliente_id?.message}
+              disabled={loadingClientes}
+              required
+            />
+            <p className="text-xs text-blue-600 mt-2">
+              Este usuario tendrá acceso exclusivo al portal del cliente seleccionado.
+            </p>
+          </div>
+        )}
+
+        {rol !== 'CLIENTE' && (
+          <div className="border-t pt-4">
             <label className="block text-sm font-medium text-gray-700 mb-3">Asignación de Módulos</label>
             <div className="grid grid-cols-2 gap-3">
                 {MODULOS.map(modulo => (
                     <label key={modulo.id} className="flex items-center space-x-3 p-3 border rounded hover:bg-gray-50 cursor-pointer">
-                        <input 
-                            type="checkbox" 
+                        <input
+                            type="checkbox"
                             value={modulo.id}
                             {...register('modulos_autorizados')}
                             disabled={rol === 'ADMIN'}
@@ -112,7 +135,8 @@ export const UsuarioForm: React.FC<UsuarioFormProps> = ({ onSubmit, onClose, def
                 ))}
             </div>
             {errors.modulos_autorizados && <p className="text-sm text-red-600 mt-1">{errors.modulos_autorizados.message}</p>}
-        </div>
+          </div>
+        )}
         
         <div className="flex items-center gap-2">
             <input 

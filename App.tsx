@@ -17,6 +17,7 @@ import ComisionesPage from './pages/ComisionesPage';
 import PresupuestoPage from './pages/PresupuestoPage';
 import OrdenesServicioPage from './pages/OrdenesServicioPage';
 import UsuariosPage from './pages/UsuariosPage';
+import ClientePortalPage from './pages/ClientePortalPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -53,6 +54,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/login" element={<LoginPage />} />
       <Route path="/" element={<PrivateRoute><Layout><DashboardPage /></Layout></PrivateRoute>} />
+      <Route path="/portal-cliente" element={<PrivateRoute><Layout><ClientePortalPage /></Layout></PrivateRoute>} />
       <Route path="/clientes" element={<PrivateRoute><Layout><ClientesPage /></Layout></PrivateRoute>} />
       <Route path="/aliados" element={<PrivateRoute><Layout><AliadosPage /></Layout></PrivateRoute>} />
       <Route path="/comisiones" element={<PrivateRoute><Layout><ComisionesPage /></Layout></PrivateRoute>} />
