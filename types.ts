@@ -151,8 +151,9 @@ export interface PerfilUsuario {
   id: string;
   email: string;
   nombre?: string;
-  rol: 'ADMIN' | 'ANALISTA' | 'CONSULTA';
+  rol: 'ADMIN' | 'ANALISTA' | 'CONSULTA' | 'CLIENTE';
   modulos_autorizados: string[]; // Array of module paths/keys
   activo: boolean;
+  cliente_id?: string; // ID del cliente asociado (solo para rol CLIENTE)
   created_at: string;
 }
