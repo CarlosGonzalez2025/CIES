@@ -11,11 +11,13 @@ import {
   BarChart3,
   Settings,
   Shield,
-  X
+  X,
+  Briefcase
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
-const menuItems = [
+// Menu for admin users (ADMIN, ANALISTA, CONSULTA)
+const adminMenuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
   { icon: Users, label: 'Clientes', path: '/clientes' },
   { icon: Handshake, label: 'Aliados', path: '/aliados' },
@@ -27,6 +29,12 @@ const menuItems = [
   { icon: Settings, label: 'Configuración', path: '/configuracion' },
 ];
 
+// Menu for client users (CLIENTE)
+const clienteMenuItems = [
+  { icon: Briefcase, label: 'Mi Portal', path: '/portal-cliente' },
+  { icon: Settings, label: 'Configuración', path: '/configuracion' },
+];
+
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
@@ -34,12 +42,16 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const location = useLocation();
-  const { hasPermission } = useAuth();
+  const { hasPermission, profile } = useAuth();
+
+  // Select menu based on user role
+  const menuItems = profile?.rol === 'CLIENTE' ? clienteMenuItems : adminMenuItems;
 
   // Filter items based on permissions
   const authorizedItems = menuItems.filter(item => {
+      if (item.path === '/portal-cliente') return true; // Client portal always visible for clients
       if (item.path === '/') return true; // Dashboard always visible
-      if (item.path === '/configuracion') return true; // Config always visible (maybe restricted inside)
+      if (item.path === '/configuracion') return true; // Config always visible
       return hasPermission(item.path);
   });
 

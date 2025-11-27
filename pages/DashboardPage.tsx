@@ -1,9 +1,18 @@
 import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 import { DashboardStats } from '../components/dashboard/DashboardStats';
 import { DashboardCharts } from '../components/dashboard/DashboardCharts';
 import { ModuleGuide } from '../components/shared/ModuleGuide';
 
 const DashboardPage: React.FC = () => {
+  const { profile } = useAuth();
+
+  // Redirect CLIENTE users to their portal
+  if (profile?.rol === 'CLIENTE') {
+    return <Navigate to="/portal-cliente" replace />;
+  }
+
   return (
     <div className="space-y-6">
       <header>
