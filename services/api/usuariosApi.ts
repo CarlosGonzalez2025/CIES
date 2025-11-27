@@ -42,24 +42,40 @@ export const usuariosApi = {
       if (authError) throw new Error(`Error creando usuario de autenticación: ${authError.message}`);
       if (!authData.user) throw new Error('No se pudo crear el usuario');
 
-      // Wait a bit for the trigger to create the profile
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // Step 2: Update the auto-created profile with admin settings
+      // Step 2: Create profile directly (don't wait for trigger)
+      // This works because we're using the user.id immediately after creation
       const { data: profileData, error: profileError } = await supabase
         .from('perfiles')
-        .update({
+        .insert([{
+          id: authData.user.id,
+          email: perfil.email,
           nombre: perfil.nombre,
           rol: perfil.rol,
           modulos_autorizados: perfil.modulos_autorizados,
           activo: perfil.activo
-        })
-        .eq('id', authData.user.id)
+        }])
         .select()
         .single();
 
       if (profileError) {
-        throw new Error(`Error actualizando perfil: ${profileError.message}`);
+        // If the trigger already created a basic profile, update it instead
+        if (profileError.code === '23505') { // Unique violation - profile already exists
+          const { data: updatedData, error: updateError } = await supabase
+            .from('perfiles')
+            .update({
+              nombre: perfil.nombre,
+              rol: perfil.rol,
+              modulos_autorizados: perfil.modulos_autorizados,
+              activo: perfil.activo
+            })
+            .eq('id', authData.user.id)
+            .select()
+            .single();
+
+          if (updateError) throw new Error(`Error actualizando perfil: ${updateError.message}`);
+          return updatedData;
+        }
+        throw new Error(`Error creando perfil: ${profileError.message}`);
       }
 
       return profileData;
