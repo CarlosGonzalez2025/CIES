@@ -87,14 +87,100 @@ const UsuariosPage: React.FC = () => {
         </Button>
       </header>
       
-      <ModuleGuide title="Seguridad y Accesos">
-        <p>
-          Desde aquí puedes controlar quién entra al sistema y qué puede ver.
+      <ModuleGuide title="🔐 Guía del Módulo de Gestión de Usuarios">
+        <p className="mb-3">
+          El módulo de <strong>Usuarios</strong> controla quién tiene acceso al sistema CIES y qué permisos tiene cada persona. Es fundamental para la seguridad y el control de accesos.
         </p>
-        <ul className="list-disc list-inside">
-          <li><strong>Administrador:</strong> Tiene acceso total a todos los módulos.</li>
-          <li><strong>Permisos:</strong> Puedes restringir el acceso a módulos sensibles (como Presupuestos o Comisiones) a usuarios específicos.</li>
-        </ul>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-3">
+          <h4 className="font-semibold text-blue-900 mb-2">🎯 ¿Para qué sirve este módulo?</h4>
+          <p className="text-sm text-blue-800">
+            Gestionar los accesos al sistema, definiendo quién puede ver y editar cada módulo, garantizando la seguridad y confidencialidad de la información.
+          </p>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">📝 Cómo crear un nuevo usuario:</h4>
+        <ol className="list-decimal list-inside space-y-1 text-sm ml-2">
+          <li>Haz clic en el botón <strong>"Nuevo Usuario"</strong> en la parte superior derecha</li>
+          <li>Completa la información básica:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li><strong>Nombre Completo:</strong> Nombre del usuario</li>
+              <li><strong>Correo Electrónico:</strong> Email para inicio de sesión</li>
+              <li><strong>Contraseña Temporal:</strong> Password inicial (solo al crear)</li>
+            </ul>
+          </li>
+          <li>Selecciona el <strong>Rol de Usuario</strong>:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li><strong>Administrador:</strong> Acceso total a todos los módulos</li>
+              <li><strong>Analista:</strong> Puede gestionar información, selecciona módulos autorizados</li>
+              <li><strong>Solo Consulta:</strong> Solo visualización, selecciona módulos autorizados</li>
+              <li><strong>Cliente:</strong> Acceso exclusivo al portal del cliente</li>
+            </ul>
+          </li>
+          <li>Si seleccionaste <strong>Cliente</strong>:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li>Aparecerá un campo <strong>"Cliente Asociado"</strong></li>
+              <li>Selecciona el cliente al que pertenece este usuario</li>
+              <li>El usuario solo verá información de ese cliente específico</li>
+            </ul>
+          </li>
+          <li>Si seleccionaste <strong>Analista o Consulta</strong>:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li>Marca los módulos a los que tendrá acceso</li>
+              <li>Los módulos no marcados no serán visibles para este usuario</li>
+            </ul>
+          </li>
+          <li>Marca el checkbox <strong>"Usuario Activo"</strong> para habilitar el acceso</li>
+          <li>Haz clic en <strong>"Crear Usuario"</strong> para guardar</li>
+        </ol>
+
+        <h4 className="font-semibold mt-4 mb-2">👥 Tipos de Roles y Permisos:</h4>
+        <div className="bg-gradient-to-r from-purple-50 to-pink-50 border border-purple-200 rounded p-3 text-sm mb-3">
+          <div className="space-y-2">
+            <div className="flex items-start">
+              <span className="font-semibold text-purple-900 min-w-[120px]">ADMIN:</span>
+              <span className="text-purple-800">Acceso completo a todos los módulos sin restricciones</span>
+            </div>
+            <div className="flex items-start">
+              <span className="font-semibold text-blue-900 min-w-[120px]">ANALISTA:</span>
+              <span className="text-blue-800">Puede crear, editar y eliminar registros en módulos autorizados</span>
+            </div>
+            <div className="flex items-start">
+              <span className="font-semibold text-green-900 min-w-[120px]">CONSULTA:</span>
+              <span className="text-green-800">Solo visualización de módulos autorizados, sin edición</span>
+            </div>
+            <div className="flex items-start">
+              <span className="font-semibold text-orange-900 min-w-[120px]">CLIENTE:</span>
+              <span className="text-orange-800">Acceso exclusivo a su portal financiero con sus datos</span>
+            </div>
+          </div>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">🔗 Conexión con otros módulos:</h4>
+        <div className="bg-green-50 border border-green-200 rounded p-3 text-sm">
+          <p className="mb-2"><strong>→ Portal Cliente:</strong> Los usuarios con rol CLIENTE verán automáticamente su portal personalizado</p>
+          <p><strong>→ Todos los módulos:</strong> Los permisos aquí definidos controlan el acceso a cada módulo del sistema</p>
+        </div>
+
+        <div className="bg-red-50 border-l-4 border-red-500 p-3 mt-3 mb-3">
+          <h4 className="font-semibold text-red-900 mb-2">⚠️ Importante - Seguridad:</h4>
+          <ul className="list-disc list-inside text-sm text-red-800 space-y-1">
+            <li>Verifica el correo antes de crear el usuario (no se puede cambiar después)</li>
+            <li>No compartas las contraseñas temporales por canales inseguros</li>
+            <li>Desactiva usuarios que ya no requieren acceso (desmarca "Usuario Activo")</li>
+            <li>Solo crea usuarios ADMIN para personal de total confianza</li>
+          </ul>
+        </div>
+
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-3 mt-3">
+          <h4 className="font-semibold text-amber-900 mb-1">💡 Consejos:</h4>
+          <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+            <li>Crea usuarios CLIENTE para que tus clientes accedan a su información financiera</li>
+            <li>Usa el rol CONSULTA para auditores o personal que solo necesita visualizar datos</li>
+            <li>Revisa periódicamente los usuarios activos y sus permisos</li>
+            <li>Usa la barra de búsqueda para encontrar usuarios por nombre o email</li>
+          </ul>
+        </div>
       </ModuleGuide>
 
       <Card>

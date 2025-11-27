@@ -99,15 +99,55 @@ const ComisionesPage: React.FC = () => {
         </Button>
       </header>
       
-      <ModuleGuide title="Módulo de Comisiones">
-        <p>
-          Aquí se registran las comisiones anuales generadas por cada cliente. La comisión es la fuente de ingresos que permite la inversión en servicios de seguridad y salud.
+      <ModuleGuide title="💰 Guía del Módulo de Comisiones ARL">
+        <p className="mb-3">
+          Las <strong>Comisiones</strong> representan los ingresos que recibes por administrar la ARL de tus clientes. Este módulo registra las primas mensuales y calcula automáticamente las comisiones anuales.
         </p>
-        <ul className="list-disc list-inside">
-          <li><strong>Paso 1:</strong> Crea una nueva comisión para un <strong>Cliente</strong> existente.</li>
-          <li><strong>Paso 2:</strong> Ingresa las primas mensuales para calcular automáticamente los totales.</li>
-          <li><strong>Conexión:</strong> El valor de la comisión calculada aquí se usa para crear un <strong>Presupuesto</strong> de inversión para el cliente.</li>
-        </ul>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-3">
+          <h4 className="font-semibold text-blue-900 mb-2">🎯 ¿Para qué sirve este módulo?</h4>
+          <p className="text-sm text-blue-800">
+            Registrar las primas de ARL emitidas mensualmente por cliente y calcular automáticamente las comisiones que generan, que luego servirán como base para los presupuestos de inversión.
+          </p>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">📝 Cómo crear una nueva comisión:</h4>
+        <ol className="list-decimal list-inside space-y-1 text-sm ml-2">
+          <li>Haz clic en el botón <strong>"Nueva Comisión"</strong> en la parte superior derecha</li>
+          <li>Selecciona el <strong>Cliente</strong> (debe existir previamente en el módulo de Clientes)</li>
+          <li>Selecciona la <strong>ARL</strong> correspondiente</li>
+          <li>Ingresa el <strong>Porcentaje de Comisión</strong> pactado con la ARL (ej: 8% = 0.08)</li>
+          <li>Completa las <strong>12 primas mensuales</strong>:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li>El sistema calculará automáticamente la comisión de cada mes</li>
+              <li>Al final mostrará el total anual de primas y comisiones</li>
+            </ul>
+          </li>
+          <li>Haz clic en <strong>"Crear Comisión"</strong> para guardar</li>
+        </ol>
+
+        <h4 className="font-semibold mt-4 mb-2">🔗 Conexión con otros módulos:</h4>
+        <div className="bg-green-50 border border-green-200 rounded p-3 text-sm">
+          <p className="mb-2"><strong>← Clientes:</strong> Debes tener el cliente creado previamente</p>
+          <p><strong>→ Presupuestos:</strong> El monto total de comisión se utiliza para calcular el presupuesto de inversión del cliente</p>
+        </div>
+
+        <div className="bg-purple-50 border-l-4 border-purple-500 p-3 mt-3 mb-3">
+          <h4 className="font-semibold text-purple-900 mb-2">📊 Cálculos Automáticos:</h4>
+          <p className="text-sm text-purple-800">
+            <strong>Comisión Mensual</strong> = Prima Emitida × Porcentaje de Comisión<br/>
+            <strong>Total Anual</strong> = Suma de las 12 primas/comisiones mensuales
+          </p>
+        </div>
+
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-3 mt-3">
+          <h4 className="font-semibold text-amber-900 mb-1">💡 Consejos:</h4>
+          <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+            <li>Registra las primas mensualmente para mantener el sistema actualizado</li>
+            <li>Verifica el porcentaje de comisión según el contrato con la ARL</li>
+            <li>Puedes editar una comisión existente para actualizar valores</li>
+          </ul>
+        </div>
       </ModuleGuide>
 
       <Card>

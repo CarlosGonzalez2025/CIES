@@ -97,15 +97,59 @@ const PresupuestoPage: React.FC = () => {
         </Button>
       </header>
       
-      <ModuleGuide title="Módulo de Presupuestos">
-        <p>
-          El presupuesto representa el monto de la comisión de un cliente que se destinará a la inversión en servicios. Es el puente entre los ingresos (comisiones) y los gastos (órdenes de servicio).
+      <ModuleGuide title="📊 Guía del Módulo de Presupuestos">
+        <p className="mb-3">
+          Los <strong>Presupuestos</strong> definen cómo se invertirá la comisión de cada cliente en servicios de seguridad y salud ocupacional. Es el puente entre los ingresos (comisiones) y los gastos (órdenes de servicio).
         </p>
-        <ul className="list-disc list-inside">
-          <li><strong>Paso 1:</strong> Crea un presupuesto a partir de la <strong>Comisión</strong> total de un cliente.</li>
-          <li><strong>Paso 2:</strong> Asigna un <strong>Aliado</strong> si ya se conoce quién ejecutará el trabajo.</li>
-          <li><strong>Conexión:</strong> Desde un presupuesto aprobado se generan una o varias <strong>Órdenes de Servicio</strong> para ejecutar las actividades.</li>
-        </ul>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-3">
+          <h4 className="font-semibold text-blue-900 mb-2">🎯 ¿Para qué sirve este módulo?</h4>
+          <p className="text-sm text-blue-800">
+            Planificar y controlar la inversión de las comisiones de cada cliente, definiendo qué actividades se realizarán, quién las ejecutará y cuánto costarán.
+          </p>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">📝 Cómo crear un nuevo presupuesto:</h4>
+        <ol className="list-decimal list-inside space-y-1 text-sm ml-2">
+          <li>Haz clic en el botón <strong>"Nuevo Presupuesto"</strong> en la parte superior derecha</li>
+          <li>Selecciona el <strong>Cliente</strong> y el <strong>Año</strong> del presupuesto</li>
+          <li>Ingresa la <strong>Comisión Total</strong> (obtenida del módulo de Comisiones)</li>
+          <li>Define el <strong>Porcentaje de Inversión</strong> (ej: si invertirás el 80% ingresa 0.80)</li>
+          <li>Completa la información del servicio:
+            <ul className="list-disc list-inside ml-6 mt-1">
+              <li><strong>Actividad:</strong> Descripción del servicio (ej: "Implementación SG-SST")</li>
+              <li><strong>Horas/Unidades:</strong> Cantidad estimada</li>
+              <li><strong>Costo por Hora/Unidad:</strong> Tarifa unitaria</li>
+              <li><strong>Aliado:</strong> Selecciona quién ejecutará (opcional)</li>
+            </ul>
+          </li>
+          <li>El sistema calculará automáticamente el <strong>Valor Total a Ejecutar</strong></li>
+          <li>Haz clic en <strong>"Crear Presupuesto"</strong> para guardar</li>
+        </ol>
+
+        <h4 className="font-semibold mt-4 mb-2">🔗 Conexión con otros módulos:</h4>
+        <div className="bg-green-50 border border-green-200 rounded p-3 text-sm">
+          <p className="mb-2"><strong>← Comisiones:</strong> El presupuesto debe basarse en la comisión anual del cliente</p>
+          <p className="mb-2"><strong>← Aliados:</strong> Puedes asignar un aliado específico para la ejecución</p>
+          <p><strong>→ Órdenes de Servicio:</strong> Con base en este presupuesto se crean las órdenes de servicio para ejecutar las actividades</p>
+        </div>
+
+        <div className="bg-purple-50 border-l-4 border-purple-500 p-3 mt-3 mb-3">
+          <h4 className="font-semibold text-purple-900 mb-2">📊 Cálculos Automáticos:</h4>
+          <p className="text-sm text-purple-800">
+            <strong>Inversión a Ejecutar</strong> = Comisión × Porcentaje de Inversión<br/>
+            <strong>Valor Total a Ejecutar</strong> = Horas/Unidades × Costo Hora/Unidad
+          </p>
+        </div>
+
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-3 mt-3">
+          <h4 className="font-semibold text-amber-900 mb-1">💡 Consejos:</h4>
+          <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+            <li>Asegúrate de que el valor a ejecutar no supere la inversión disponible</li>
+            <li>Actualiza el valor ejecutado conforme se van completando las órdenes de servicio</li>
+            <li>Un cliente puede tener múltiples presupuestos para diferentes actividades</li>
+          </ul>
+        </div>
       </ModuleGuide>
 
       <Card>

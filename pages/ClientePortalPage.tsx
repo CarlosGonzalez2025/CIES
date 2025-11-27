@@ -8,6 +8,7 @@ import { Button } from '../components/ui/Button';
 import { Loader } from '../components/ui/Loader';
 import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { formatCurrency } from '../utils/formatters';
+import { ModuleGuide } from '../components/shared/ModuleGuide';
 import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
@@ -211,6 +212,76 @@ export default function ClientePortalPage() {
           </Button>
         </div>
       </div>
+
+      <ModuleGuide title="💼 Guía del Portal del Cliente">
+        <p className="mb-3">
+          Bienvenido a tu <strong>Portal Financiero</strong>. Aquí puedes consultar toda la información relacionada con las comisiones, presupuestos y servicios ejecutados para tu empresa.
+        </p>
+
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-3">
+          <h4 className="font-semibold text-blue-900 mb-2">🎯 ¿Qué puedes hacer en este portal?</h4>
+          <p className="text-sm text-blue-800">
+            Visualizar tus métricas financieras, comisiones de ARL, presupuestos asignados, órdenes de servicio y exportar toda esta información a Excel o PDF para tus registros.
+          </p>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">📊 Secciones del Portal:</h4>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-3 rounded border border-blue-200">
+            <h5 className="font-semibold text-blue-900 mb-1">💰 Comisiones Totales</h5>
+            <p className="text-blue-800 text-xs">Suma total de todas las comisiones generadas por tu empresa</p>
+          </div>
+          <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-3 rounded border border-green-200">
+            <h5 className="font-semibold text-green-900 mb-1">📊 Presupuesto Ejecutado</h5>
+            <p className="text-green-800 text-xs">Monto invertido en servicios de seguridad y salud</p>
+          </div>
+          <div className="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded border border-purple-200">
+            <h5 className="font-semibold text-purple-900 mb-1">📦 Órdenes Activas</h5>
+            <p className="text-purple-800 text-xs">Servicios en ejecución o pendientes de pago</p>
+          </div>
+          <div className="bg-gradient-to-r from-amber-50 to-orange-50 p-3 rounded border border-amber-200">
+            <h5 className="font-semibold text-amber-900 mb-1">💵 Primas Totales</h5>
+            <p className="text-amber-800 text-xs">Total de primas de ARL emitidas</p>
+          </div>
+        </div>
+
+        <h4 className="font-semibold mt-4 mb-2">📈 Gráficos Disponibles:</h4>
+        <ul className="list-disc list-inside space-y-1 text-sm ml-2">
+          <li><strong>Evolución de Comisiones:</strong> Gráfico de líneas mostrando tus comisiones mes a mes durante el último año</li>
+          <li><strong>Ejecución de Presupuestos:</strong> Gráfico de barras comparando el monto ejecutado vs. el pendiente por presupuesto</li>
+          <li><strong>Comisiones Recientes:</strong> Tabla con las últimas 10 comisiones registradas</li>
+          <li><strong>Órdenes de Servicio:</strong> Tabla con las últimas 10 órdenes ejecutadas o en proceso</li>
+        </ul>
+
+        <h4 className="font-semibold mt-4 mb-2">📥 Exportación de Datos:</h4>
+        <div className="bg-purple-50 border-l-4 border-purple-500 p-3 mb-3">
+          <p className="text-sm text-purple-800 mb-2">
+            Usa los botones <strong>"Exportar Excel"</strong> o <strong>"Exportar PDF"</strong> en la parte superior para descargar toda tu información financiera.
+          </p>
+          <ul className="list-disc list-inside text-xs text-purple-700 space-y-1 ml-2">
+            <li><strong>Excel:</strong> Incluye múltiples hojas (Resumen, Comisiones, Órdenes) ideal para análisis en Excel</li>
+            <li><strong>PDF:</strong> Reporte ejecutivo formateado profesionalmente, perfecto para presentaciones</li>
+            <li>Los archivos se nombran automáticamente con tu nombre y la fecha de exportación</li>
+          </ul>
+        </div>
+
+        <div className="bg-green-50 border-l-4 border-green-500 p-3 mt-3 mb-3">
+          <h4 className="font-semibold text-green-900 mb-2">🔒 Seguridad y Privacidad:</h4>
+          <p className="text-sm text-green-800">
+            Solo puedes ver la información de tu empresa. Todos los datos están protegidos con Row Level Security (RLS) en la base de datos, garantizando que cada cliente solo acceda a su propia información.
+          </p>
+        </div>
+
+        <div className="bg-amber-50 border-l-4 border-amber-500 p-3 mt-3">
+          <h4 className="font-semibold text-amber-900 mb-1">💡 Consejos:</h4>
+          <ul className="list-disc list-inside text-sm text-amber-800 space-y-1">
+            <li>Revisa periódicamente tus métricas para estar al tanto de tu situación financiera</li>
+            <li>Exporta los reportes mensualmente para tus archivos contables</li>
+            <li>Verifica el estado de las órdenes de servicio para conocer qué servicios están en proceso</li>
+            <li>Si encuentras alguna inconsistencia, contacta al administrador del sistema</li>
+          </ul>
+        </div>
+      </ModuleGuide>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
