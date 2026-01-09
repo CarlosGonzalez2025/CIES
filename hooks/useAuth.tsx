@@ -50,24 +50,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
     const getSession = async () => {
       try {
-        // Aumentar timeout a 15 segundos para conexiones lentas
-        const sessionPromise = supabase.auth.getSession();
-        const timeoutPromise = new Promise((_, reject) =>
-          setTimeout(() => reject(new Error('Connection timeout')), 15000)
-        );
+        // Llamada directa sin timeout - dejar que Supabase maneje sus tiempos
+        const { data, error } = await supabase.auth.getSession();
 
-        const { data, error } = await Promise.race([sessionPromise, timeoutPromise]) as any;
-
-        // Si hay un error de refresh token, limpiar la sesión silenciosamente
-        if (error?.message?.includes('refresh') || error?.message?.includes('token')) {
-          console.warn('Token refresh issue, signing out silently');
+        // Si hay un error de refresh token, limpiar la sesión
+        if (error?.message?.includes('refresh') || error?.message?.includes('token') || error?.message?.includes('invalid')) {
           await supabase.auth.signOut();
+          // Limpiar localStorage manualmente si es necesario
+          localStorage.removeItem('sb-czszsegsoigpxtfyplsl-auth-token');
           if (mounted) setLoading(false);
           return;
         }
 
         if (error) {
           console.error('Session error:', error.message);
+          if (mounted) setLoading(false);
+          return;
         }
 
         if (mounted && data?.session) {
@@ -79,10 +77,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       } catch (error: any) {
         console.error("Auth initialization error:", error?.message);
-        // No mostrar toast para errores de timeout - no bloquean el uso
-        if (error?.message === 'Connection timeout') {
-          console.warn('Auth timeout - proceeding without session check');
-        }
       } finally {
         if (mounted) setLoading(false);
       }
