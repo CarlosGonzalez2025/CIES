@@ -340,4 +340,5 @@ Vercel incluye:
 
 **Última Actualización**: Enero 2026  
 **Versión**: 1.0.0  
-**Estado**: Documentación Completa
+**Desarrollado por**: [DateNova](https://www.datenova.io) - Soluciones de Software Empresarial  
+**Documentación Completa**: README.md | SUPABASE_SETUP.md

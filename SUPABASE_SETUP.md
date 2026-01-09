@@ -402,4 +402,11 @@ VITE_SUPABASE_ANON_KEY=tu_anon_key_aqui
 
 ---
 
-¿Necesitas ayuda? Contacta a soporte@cies.com
+¿Necesitas ayuda con la configuración? 
+
+**Soporte CIES**: soporte@cies.com  
+**Desarrollo y Consultoría**: [DateNova](https://www.datenova.io) - info@datenova.io
+
+---
+
+**Desarrollado por [DateNova](https://www.datenova.io)** - Soluciones de Software Empresarial

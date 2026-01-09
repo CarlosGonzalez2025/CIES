@@ -223,17 +223,47 @@ cp .env.example .env
 
 Pull requests son bienvenidos. Para cambios mayores, abre un issue primero para discutir los cambios propuestos.
 
+## 👨‍💻 Desarrollado por
+
+**[DateNova](https://www.datenova.io)** - Soluciones de Software Empresarial
+
+DateNova se especializa en el desarrollo de aplicaciones empresariales personalizadas, transformación digital y consultoría tecnológica. Creamos soluciones innovadoras que impulsan el crecimiento de tu negocio.
+
+🌐 **Website**: [www.datenova.io](https://www.datenova.io)  
+📧 **Contacto**: info@datenova.io
+
+---
+
+### Sobre este Proyecto
+
+CIES fue desarrollado completamente por el equipo de DateNova utilizando las últimas tecnologías y mejores prácticas de la industria, incluyendo:
+- React 19 con TypeScript
+- Supabase como Backend-as-a-Service
+- TailwindCSS para diseño responsive
+- Arquitectura escalable y modular
+
+**¿Necesitas una solución similar para tu empresa?** Contáctanos en [www.datenova.io](https://www.datenova.io)
+
+---
+
 ## 📄 Licencia
 
-Este proyecto es privado y propiedad de CIES Seguros y Soluciones.
+Este proyecto es privado y propiedad de CIES Seguros y Soluciones.  
+Desarrollado por **DateNova** - © 2026 Todos los derechos reservados.
 
 ## 📧 Contacto
 
-- **Soporte**: soporte@cies.com
+### Soporte de la Aplicación
+- **Email**: soporte@cies.com
 - **Website**: [En construcción]
+
+### Desarrollo y Consultoría Técnica
+- **DateNova**: [www.datenova.io](https://www.datenova.io)
+- **Email**: info@datenova.io
 
 ---
 
 **Versión**: 1.0.0  
 **Última actualización**: Enero 2026  
+**Desarrollado por**: [DateNova](https://www.datenova.io)  
 **Estado**: ✅ Listo para Producción

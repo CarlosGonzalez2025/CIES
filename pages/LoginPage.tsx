@@ -228,9 +228,23 @@ const LoginPage: React.FC = () => {
             </div>
 
             {/* Footer Note */}
-            <p className="text-center text-white/90 text-sm mt-6 font-medium">
-              © {new Date().getFullYear()} CIES Seguros y Soluciones. Todos los derechos reservados.
-            </p>
+            <div className="text-center text-white/90 text-sm mt-6 space-y-2">
+              <p className="font-medium">
+                © {new Date().getFullYear()} CIES Seguros y Soluciones. Todos los derechos reservados.
+              </p>
+              <p className="text-white/70 text-xs">
+                Desarrollado por{' '}
+                <a
+                  href="https://www.datenova.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white font-semibold hover:underline transition-all"
+                >
+                  DateNova
+                </a>
+                {' '}- Soluciones de Software Empresarial
+              </p>
+            </div>
           </div>
         </div>
       </div>
