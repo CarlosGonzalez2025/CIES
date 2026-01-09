@@ -20,7 +20,8 @@ import {
   Clock,
   CheckCircle2,
   AlertCircle,
-  Activity
+  Activity,
+  Code
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -128,29 +129,18 @@ export const Footer: React.FC = () => {
 
   // Links principales del footer
   const footerSections = {
-    producto: [
-      { label: 'Características', path: '/caracteristicas' },
-      { label: 'Precios', path: '/precios' },
-      { label: 'Actualizaciones', path: '/actualizaciones' },
-      { label: 'Roadmap', path: '/roadmap' },
+    recursos: [
+      { label: 'Guía de Usuario', path: '/guia', icon: BookOpen },
+      { label: 'Documentación', path: '/guia', icon: FileText },
     ],
     soporte: [
-      { label: 'Centro de Ayuda', path: '/ayuda', icon: HelpCircle },
-      { label: 'Documentación', path: '/documentacion', icon: BookOpen },
-      { label: 'API Reference', path: '/api', icon: FileText },
-      { label: 'Contacto', path: '/contacto', icon: Mail },
+      { label: 'Centro de Ayuda', path: '/guia', icon: HelpCircle },
+      { label: 'Contacto', href: 'mailto:soporte@cies.com', icon: Mail },
     ],
-    empresa: [
-      { label: 'Acerca de', path: '/acerca' },
-      { label: 'Blog', path: '/blog' },
-      { label: 'Carreras', path: '/carreras' },
-      { label: 'Prensa', path: '/prensa' },
-    ],
-    legal: [
-      { label: 'Términos de Servicio', path: '/terminos' },
-      { label: 'Política de Privacidad', path: '/privacidad' },
-      { label: 'Política de Cookies', path: '/cookies' },
-      { label: 'Cumplimiento', path: '/cumplimiento' },
+    aplicacion: [
+      { label: 'Dashboard', path: '/' },
+      { label: 'Reportes', path: '/reportes' },
+      { label: 'Configuración', path: '/configuracion' },
     ],
   };
 
@@ -254,41 +244,24 @@ export const Footer: React.FC = () => {
   const FullFooter = () => (
     <footer className="bg-gray-900 text-gray-300 mt-auto">
       <div className="px-4 sm:px-6 lg:px-8">
-        {/* Main Footer Grid */}
-        <div className="py-12 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8">
+        {/* Main Footer Grid - Más compacto con 3 columnas */}
+        <div className="py-8 grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand Section */}
-          <div className="col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <h2 className="text-2xl font-bold text-white">CIES</h2>
+          <div>
+            <div className="flex items-center space-x-2 mb-3">
+              <h2 className="text-xl font-bold text-white">CIES</h2>
             </div>
             <p className="text-sm text-gray-400 mb-4 max-w-xs">
-              Soluciones integrales en seguros y gestión de riesgos para empresas.
+              Sistema de Gestión Integral para Comisiones ARL, Presupuestos y Órdenes de Servicio.
             </p>
             <SocialLinks />
           </div>
 
-          {/* Product Links */}
+          {/* Recursos y Soporte */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Producto</h3>
-            <ul className="space-y-2">
-              {footerSections.producto.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Support Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Soporte</h3>
-            <ul className="space-y-2">
-              {footerSections.soporte.map((link) => (
+            <h3 className="text-sm font-semibold text-white mb-3">Recursos</h3>
+            <ul className="space-y-2 mb-6">
+              {footerSections.recursos.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -300,30 +273,37 @@ export const Footer: React.FC = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* Company Links */}
-          <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Empresa</h3>
+            <h3 className="text-sm font-semibold text-white mb-3">Soporte</h3>
             <ul className="space-y-2">
-              {footerSections.empresa.map((link) => (
-                <li key={link.path}>
-                  <Link
-                    to={link.path}
-                    className="text-sm text-gray-400 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </Link>
+              {footerSections.soporte.map((link) => (
+                <li key={link.path || link.href}>
+                  {link.href ? (
+                    <a
+                      href={link.href}
+                      className="text-sm text-gray-400 hover:text-white transition-colors flex items-center"
+                    >
+                      {link.icon && <link.icon className="w-3.5 h-3.5 mr-1.5" />}
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      to={link.path}
+                      className="text-sm text-gray-400 hover:text-white transition-colors flex items-center"
+                    >
+                      {link.icon && <link.icon className="w-3.5 h-3.5 mr-1.5" />}
+                      {link.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Legal Links */}
+          {/* Aplicación */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Legal</h3>
+            <h3 className="text-sm font-semibold text-white mb-3">Aplicación</h3>
             <ul className="space-y-2">
-              {footerSections.legal.map((link) => (
+              {footerSections.aplicacion.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}
@@ -337,22 +317,44 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="border-t border-gray-800 py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        {/* Bottom Bar - Con DateNova destacado */}
+        <div className="border-t border-gray-800 py-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
             <p className="text-sm text-gray-400">
               © {currentYear} CIES Seguros y Soluciones. Todos los derechos reservados.
             </p>
-            <div className="flex items-center space-x-4 text-sm text-gray-400">
-              <span className="flex items-center">
-                <Shield className="w-3.5 h-3.5 mr-1" />
-                SSL Seguro
-              </span>
-              <span className="flex items-center">
-                <Globe className="w-3.5 h-3.5 mr-1" />
-                Colombia
-              </span>
-              <span>v{appVersion}</span>
+
+            {/* DateNova Credits - Prominente */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+              <div className="flex items-center space-x-2 text-sm">
+                <span className="text-gray-400">Desarrollado por</span>
+                <a
+                  href="https://www.datenova.io"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center space-x-1.5 px-3 py-1 bg-primary-600/10 hover:bg-primary-600/20 border border-primary-600/30 rounded-lg transition-all"
+                >
+                  <Code className="w-4 h-4 text-primary-400" />
+                  <span className="font-semibold text-primary-400 group-hover:text-primary-300">
+                    DateNova
+                  </span>
+                  <ExternalLink className="w-3 h-3 text-primary-400/70" />
+                </a>
+              </div>
+
+              <div className="flex items-center space-x-3 text-xs text-gray-500">
+                <span className="flex items-center">
+                  <Shield className="w-3.5 h-3.5 mr-1" />
+                  SSL Seguro
+                </span>
+                <span>•</span>
+                <span className="flex items-center">
+                  <Globe className="w-3.5 h-3.5 mr-1" />
+                  Colombia
+                </span>
+                <span>•</span>
+                <span>v{appVersion}</span>
+              </div>
             </div>
           </div>
         </div>
