@@ -31,12 +31,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         .select('*')
         .eq('id', userId)
         .single();
-      
+
       if (!error && data) {
         setProfile(data);
       } else {
         // Fallback for initial admin or if profile doesn't exist yet
-        setProfile(null); 
+        setProfile(null);
       }
     } catch (err) {
       console.error("Error fetching profile:", err);
@@ -44,19 +44,56 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   useEffect(() => {
+    let mounted = true;
+
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setSession(session);
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchProfile(session.user.id);
+      try {
+        // Create a race condition with a timeout to prevent infinite hanging
+        const sessionPromise = supabase.auth.getSession();
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Connection timeout')), 5000)
+        );
+
+        const { data, error } = await Promise.race([sessionPromise, timeoutPromise]) as any;
+
+        // Si hay un error de refresh token, limpiar la sesión silenciosamente
+        if (error?.message?.includes('refresh') || error?.message?.includes('token')) {
+          await supabase.auth.signOut();
+          if (mounted) setLoading(false);
+          return;
+        }
+
+        if (mounted && data?.session) {
+          setSession(data.session);
+          setUser(data.session.user ?? null);
+          if (data.session.user) {
+            await fetchProfile(data.session.user.id);
+          }
+        }
+      } catch (error: any) {
+        // Solo mostrar errores si no es un problema de token
+        if (!error?.message?.includes('refresh') && !error?.message?.includes('token')) {
+          console.error("Auth initialization error:", error);
+          if (mounted && error?.message !== 'Connection timeout') {
+            toast.error("Error conectando con el servidor. Verifique su conexión.");
+          }
+        }
+      } finally {
+        if (mounted) setLoading(false);
       }
-      setLoading(false);
     };
 
     getSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      // Detectar errores de token refresh y limpiar sesión silenciosamente
+      if (_event === 'TOKEN_REFRESHED' && !session) {
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        return;
+      }
+
       setSession(session);
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -64,14 +101,17 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       } else {
         setProfile(null);
       }
-      
+
       if (_event === 'SIGNED_OUT') {
         navigate('/login');
       }
     });
 
-    return () => subscription.unsubscribe();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const logout = async () => {

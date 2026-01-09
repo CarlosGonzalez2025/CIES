@@ -8,14 +8,8 @@ export const aliadoSchema = z.object({
   numero_telefonico: z.string().optional(),
   email: z.string().email('Email no válido').optional().or(z.literal('')),
   fecha_registro: z.string().min(1, 'La fecha es requerida'),
-  hora_pbl: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)),
-    z.number().positive('El valor debe ser positivo').optional()
-  ),
-  hora_especializada: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)),
-    z.number().positive('El valor debe ser positivo').optional()
-  ),
+  hora_pbl: z.coerce.number().positive('El valor debe ser positivo').optional(),
+  hora_especializada: z.coerce.number().positive('El valor debe ser positivo').optional(),
   direccion: z.string().optional(),
   tipo_cuenta: z.string().optional(),
   banco: z.string().optional(),

@@ -8,7 +8,7 @@ export const clientesApi = {
       .from('clientes')
       .select('*, arl:arl_id(id, nombre)')
       .order('nombre_cliente', { ascending: true });
-    
+
     if (error) throw error;
     return data || [];
   },
@@ -19,11 +19,11 @@ export const clientesApi = {
       .select('*, arl:arl_id(id, nombre)')
       .eq('id', id)
       .single();
-    
+
     if (error) throw error;
     return data;
   },
-  
+
   async create(cliente: Omit<Cliente, 'id' | 'created_at' | 'updated_at'>): Promise<Cliente> {
     const { data, error } = await supabase
       .from('clientes')
@@ -33,6 +33,16 @@ export const clientesApi = {
 
     if (error) throw error;
     return data;
+  },
+
+  async createMany(clientes: Omit<Cliente, 'id' | 'created_at' | 'updated_at'>[]): Promise<Cliente[]> {
+    const { data, error } = await supabase
+      .from('clientes')
+      .insert(clientes)
+      .select('*, arl:arl_id(id, nombre)');
+
+    if (error) throw error;
+    return data || [];
   },
 
   async update(id: string, updates: Partial<Cliente>): Promise<Cliente> {

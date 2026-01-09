@@ -20,6 +20,9 @@ import UsuariosPage from './pages/UsuariosPage';
 import ClientePortalPage from './pages/ClientePortalPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
+import GuiaPage from './pages/GuiaPage';
+import ConfiguracionPage from './pages/ConfiguracionPage';
+import ReportesPage from './pages/ReportesPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +40,7 @@ interface PrivateRouteProps {
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
   const { user, loading } = useAuth();
-  
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -45,7 +48,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
       </div>
     );
   }
-  
+
   return user ? <>{children}</> : <Navigate to="/login" />;
 };
 
@@ -61,9 +64,9 @@ function AppRoutes() {
       <Route path="/presupuesto" element={<PrivateRoute><Layout><PresupuestoPage /></Layout></PrivateRoute>} />
       <Route path="/ordenes-servicio" element={<PrivateRoute><Layout><OrdenesServicioPage /></Layout></PrivateRoute>} />
       <Route path="/usuarios" element={<PrivateRoute><Layout><UsuariosPage /></Layout></PrivateRoute>} />
-      {/* Placeholder pages */}
-      <Route path="/reportes" element={<PrivateRoute><Layout><div><h1>Reportes</h1></div></Layout></PrivateRoute>} />
-      <Route path="/configuracion" element={<PrivateRoute><Layout><div><h1>Configuración</h1></div></Layout></PrivateRoute>} />
+      <Route path="/reportes" element={<PrivateRoute><Layout><ReportesPage /></Layout></PrivateRoute>} />
+      <Route path="/configuracion" element={<PrivateRoute><Layout><ConfiguracionPage /></Layout></PrivateRoute>} />
+      <Route path="/ayuda" element={<PrivateRoute><Layout><GuiaPage /></Layout></PrivateRoute>} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

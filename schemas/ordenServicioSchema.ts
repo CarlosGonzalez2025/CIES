@@ -10,14 +10,8 @@ export const ordenServicioSchema = z.object({
   especialidad: z.string().optional(),
   categoria_servicio: z.string().optional(),
   servicio_contratado: z.string().min(3, 'El servicio contratado es requerido'),
-  unidad: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)),
-    z.number().positive('Debe ser mayor a 0').optional()
-  ),
-  costo_hora: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)),
-    z.number().positive('El costo debe ser positivo').optional()
-  ),
+  unidad: z.coerce.number().positive('Debe ser mayor a 0').optional(),
+  costo_hora: z.coerce.number().positive('El costo debe ser positivo').optional(),
   numero_factura: z.string().optional(),
   fecha_radicacion: z.string().optional().or(z.literal('')),
   estado_actividad: z.enum(['PENDIENTE', 'EJECUTADO', 'FACTURADO', 'ANULADO']).default('PENDIENTE'),
