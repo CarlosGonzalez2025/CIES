@@ -23,6 +23,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import GuiaPage from './pages/GuiaPage';
 import ConfiguracionPage from './pages/ConfiguracionPage';
 import ReportesPage from './pages/ReportesPage';
+import DiagnosticoPage from './pages/DiagnosticoPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -66,6 +67,7 @@ function AppRoutes() {
       <Route path="/usuarios" element={<PrivateRoute><Layout><UsuariosPage /></Layout></PrivateRoute>} />
       <Route path="/reportes" element={<PrivateRoute><Layout><ReportesPage /></Layout></PrivateRoute>} />
       <Route path="/configuracion" element={<PrivateRoute><Layout><ConfiguracionPage /></Layout></PrivateRoute>} />
+      <Route path="/diagnostico" element={<PrivateRoute><Layout><DiagnosticoPage /></Layout></PrivateRoute>} />
       <Route path="/ayuda" element={<PrivateRoute><Layout><GuiaPage /></Layout></PrivateRoute>} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
