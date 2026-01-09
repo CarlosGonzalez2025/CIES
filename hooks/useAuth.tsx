@@ -36,10 +36,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setProfile(data);
       } else {
         // Fallback for initial admin or if profile doesn't exist yet
+        console.warn('Profile not found for user:', userId, error?.message);
         setProfile(null);
       }
     } catch (err) {
       console.error("Error fetching profile:", err);
+      setProfile(null);
     }
   };
 
@@ -118,9 +120,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
-      toast.success('Sesión cerrada');
+
+      // Limpiar estado local
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+
+      toast.success('Sesión cerrada exitosamente');
+
+      // Forzar navegación al login
+      navigate('/login', { replace: true });
     } catch (error: any) {
-      toast.error(error.message);
+      console.error('Logout error:', error);
+      toast.error(`Error al cerrar sesión: ${error.message}`);
+
+      // Aún así intentar navegar al login
+      navigate('/login', { replace: true });
     }
   };
 
