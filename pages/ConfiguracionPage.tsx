@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
-import { User, Bell, Shield, Lock } from 'lucide-react';
+import { User, Bell, Shield, Lock, Activity } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ConfiguracionPage() {
     const { user, profile } = useAuth();
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('perfil');
 
     // Mock implementation for UI demonstration
@@ -48,13 +50,22 @@ export default function ConfiguracionPage() {
                         onClick={setActiveTab}
                     />
                     {profile?.rol === 'ADMIN' && (
-                        <ConfigTab
-                            id="sistema"
-                            label="Parámetros Sistema"
-                            icon={<Shield className="w-4 h-4" />}
-                            active={activeTab}
-                            onClick={setActiveTab}
-                        />
+                        <>
+                            <ConfigTab
+                                id="sistema"
+                                label="Parámetros Sistema"
+                                icon={<Shield className="w-4 h-4" />}
+                                active={activeTab}
+                                onClick={setActiveTab}
+                            />
+                            <ConfigTab
+                                id="diagnostico"
+                                label="Diagnóstico Sistema"
+                                icon={<Activity className="w-4 h-4" />}
+                                active={activeTab}
+                                onClick={setActiveTab}
+                            />
+                        </>
                     )}
                 </aside>
 
@@ -137,6 +148,55 @@ export default function ConfiguracionPage() {
                                 <div className="pt-4">
                                     <Button type="submit" variant="outline" onClick={() => toast.success('Parámetros actualizados')}>
                                         Actualizar Parámetros
+                                    </Button>
+                                </div>
+                            </div>
+                        </Card>
+                    )}
+
+                    {activeTab === 'diagnostico' && (
+                        <Card className="p-6">
+                            <div className="flex items-start justify-between mb-6">
+                                <div>
+                                    <h2 className="text-xl font-semibold mb-2">Diagnóstico del Sistema</h2>
+                                    <p className="text-sm text-gray-600">
+                                        Verifica la conexión con Supabase y el estado de todas las funcionalidades del sistema
+                                    </p>
+                                </div>
+                                <Activity className="w-8 h-8 text-primary-600" />
+                            </div>
+
+                            <div className="space-y-4">
+                                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                                    <h3 className="font-medium text-blue-900 mb-2">¿Qué incluye el diagnóstico?</h3>
+                                    <ul className="text-sm text-blue-800 space-y-1 list-disc list-inside">
+                                        <li>Verificación de conexión con Supabase</li>
+                                        <li>Estado de todas las tablas de la base de datos</li>
+                                        <li>Pruebas de autenticación y perfiles de usuario</li>
+                                        <li>Verificación de operaciones CRUD</li>
+                                        <li>Estado de las APIs del sistema</li>
+                                        <li>Políticas de seguridad RLS</li>
+                                    </ul>
+                                </div>
+
+                                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                                    <h3 className="font-medium text-green-900 mb-2">Recomendado ejecutar cuando:</h3>
+                                    <ul className="text-sm text-green-800 space-y-1 list-disc list-inside">
+                                        <li>Se experimentan problemas de conexión</li>
+                                        <li>Los registros no se guardan correctamente</li>
+                                        <li>Hay errores al crear usuarios o clientes</li>
+                                        <li>Después de cambios en la configuración de Supabase</li>
+                                        <li>Como verificación rutinaria del sistema</li>
+                                    </ul>
+                                </div>
+
+                                <div className="pt-4">
+                                    <Button
+                                        onClick={() => navigate('/diagnostico')}
+                                        className="w-full bg-primary-600 hover:bg-primary-700"
+                                    >
+                                        <Activity className="w-4 h-4 mr-2" />
+                                        Ir a Diagnóstico Completo
                                     </Button>
                                 </div>
                             </div>
