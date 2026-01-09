@@ -1,5 +1,6 @@
 
 import { supabase } from '../supabaseClient';
+import { createClient } from '@supabase/supabase-js';
 import type { PerfilUsuario } from '../../types';
 
 export const usuariosApi = {
@@ -8,7 +9,7 @@ export const usuariosApi = {
       .from('perfiles')
       .select('*')
       .order('created_at', { ascending: false });
-    
+
     if (error) throw error;
     return data || [];
   },
@@ -19,7 +20,7 @@ export const usuariosApi = {
       .select('*')
       .eq('id', id)
       .single();
-    
+
     if (error) throw error;
     return data;
   },
@@ -28,7 +29,22 @@ export const usuariosApi = {
   async createPerfil(perfil: Omit<PerfilUsuario, 'created_at'> & { password?: string }): Promise<PerfilUsuario> {
     // Step 1: Create auth user first (if password is provided)
     if (perfil.password) {
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+
+      // CRITICAL: Use a temporary client to avoid signing out the current admin user
+      // signUp() by default signs in the new user, replacing the current session.
+      // We prevent this by using a non-persisting client instance.
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+      const tempClient = createClient(supabaseUrl, supabaseAnonKey, {
+        auth: {
+          persistSession: false, // Don't save session to localStorage
+          autoRefreshToken: false,
+          detectSessionInUrl: false
+        }
+      });
+
+      const { data: authData, error: authError } = await tempClient.auth.signUp({
         email: perfil.email,
         password: perfil.password,
         options: {
@@ -42,8 +58,8 @@ export const usuariosApi = {
       if (authError) throw new Error(`Error creando usuario de autenticación: ${authError.message}`);
       if (!authData.user) throw new Error('No se pudo crear el usuario');
 
-      // Step 2: Create profile directly (don't wait for trigger)
-      // This works because we're using the user.id immediately after creation
+      // Step 2: Create profile using the MAIN client (as Admin)
+      // Now we insert into 'perfiles'. RLS must allow Admin to insert.
       const { data: profileData, error: profileError } = await supabase
         .from('perfiles')
         .insert([{
@@ -59,8 +75,8 @@ export const usuariosApi = {
         .single();
 
       if (profileError) {
-        // If the trigger already created a basic profile, update it instead
-        if (profileError.code === '23505') { // Unique violation - profile already exists
+        // Handle constraint violations (e.g. if a trigger already created the profile)
+        if (profileError.code === '23505') {
           const { data: updatedData, error: updateError } = await supabase
             .from('perfiles')
             .update({
@@ -82,7 +98,7 @@ export const usuariosApi = {
 
       return profileData;
     } else {
-      // If no password, just create profile (assuming user exists in auth)
+      // If no password, just create profile (useful for existing auth users)
       const { data, error } = await supabase
         .from('perfiles')
         .insert([perfil])
@@ -105,7 +121,7 @@ export const usuariosApi = {
     if (error) throw error;
     return data;
   },
-  
+
   async delete(id: string): Promise<void> {
     // Only delete profile, auth user deletion requires admin privileges/edge function
     const { error } = await supabase
